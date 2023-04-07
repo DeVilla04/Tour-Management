@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Create Tour Package</title>
+  <style>
+    label {
+      display: block;
+      margin-top: 10px;
+    }
+    input[type=text], input[type=number] {
+      width: 100%;
+      padding: 5px;
+      margin-top: 5px;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+    }
+    select {
+      width: 100%;
+      padding: 5px;
+      margin-top: 5px;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+    }
+    button {
+      background-color: #4CAF50;
+      color: white;
+      padding: 10px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #3e8e41;
+    }
+  </style>
+</head>
+<body>
+  <h1>Create Tour Package</h1>
+  <form id="createPackageForm">
+    <label for="packageName">Package Name</label>
+    <input type="text" id="packageName" name="packageName" required>
+
+    <label for="duration">Duration (in days)</label>
+    <input type="number" id="duration" name="duration" required>
+
+    <label for="numberOfPeople">Number of People</label>
+    <input type="number" id="numberOfPeople" name="numberOfPeople" required>
+
+    <label for="placeCity">City</label>
+    <input type="text" id="placeCity" name="placeCity" required>
+
+    <label for="placeState">State</label>
+    <input type="text" id="placeState" name="placeState" required>
+
+    <label for="hotelName">Hotel Name</label>
+    <input type="text" id="hotelName" name="hotelName" required>
+
+    <label for="restaurantName">Restaurant Name</label>
+    <input type="text" id="restaurantName" name="restaurantName" required>
+
+    <button type="submit">Create Package</button>
+  </form>
+  <h3><a href="packages.html">Click on me to find packages</a></h3>
+
+  <script>
+    const form = document.getElementById('createPackageForm');
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+
+      const name = document.getElementById('packageName').value;
+      const duration = document.getElementById('duration').value;
+      const numberOfPeople = document.getElementById('numberOfPeople').value;
+      const city = document.getElementById('placeCity').value;
+      const state = document.getElementById('placeState').value;
+      const hotel = document.getElementById('hotelName').value;     
+      const restaurant = document.getElementById('restaurantName').value
+
+    const data = {
+        name,
+        duration,
+        numberOfPeople,
+        city,
+        state,
+        hotel,
+        restaurant
+    };
+    console.log(data);
+    fetch('http:localhost:5500/package/create', {
+      method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    })
+    .then(response => response.json())
+    .then(data => {
+    console.log(data);
+    alert('Package created successfully!');
+    form.reset();
+    })
+    .catch(error => {
+    console.error(error);
+    alert('Error creating package!');
+    });
+    });
+    </script>
+</body>
+</html>

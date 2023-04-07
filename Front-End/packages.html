@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Tour Packages</title>
+  <style>
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin-top: 20px;
+    }
+
+    th, td {
+      text-align: left;
+      padding: 8px;
+    }
+
+    th {
+      background-color: #333;
+      color: white;
+    }
+
+    tr:nth-child(even) {
+      background-color: #f2f2f2;
+    }
+
+    tr:hover {
+      background-color: #ddd;
+    }
+  </style>
+</head>
+<body>
+  <h1>Tour Packages</h1>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Duration</th>
+        <th>Number of People</th>
+        <th>Place</th>
+        <th>Hotel</th>
+        <th>Restaurant</th>
+      </tr>
+    </thead>
+    <tbody id="packagesTable">
+    </tbody>
+  </table>
+  <h2><a href = "index.html">To create a package</a></h2>
+  <script>
+    fetch('http://localhost:5500/package/all')
+    .then(response => response.json())
+    .then(data => {
+      const packagesTable = document.getElementById('packagesTable');
+      data.forEach(package => {
+        const row = document.createElement('tr');
+        const nameCell = document.createElement('td');
+        nameCell.textContent = package.name;
+        console.log(package.name);
+        row.appendChild(nameCell);
+        const durationCell = document.createElement('td');
+        durationCell.textContent = package.duration;
+        row.appendChild(durationCell);
+        const numberOfPeopleCell = document.createElement('td');
+        numberOfPeopleCell.textContent = package.numberOfPeople;
+        row.appendChild(numberOfPeopleCell);
+        const placeCell = document.createElement('td');
+        console.log(package.place);
+        placeCell.textContent = package.place.place.city + ', ' + package.place.place.state;
+        row.appendChild(placeCell);
+        const hotelCell = document.createElement('td');
+        hotelCell.textContent = package.hotel.name;
+        row.appendChild(hotelCell);
+        const restaurantCell = document.createElement('td');
+        restaurantCell.textContent = package.restaurant.name;
+        row.appendChild(restaurantCell);
+        packagesTable.appendChild(row);
+      });
+    })
+    .catch(error => {
+      console.error(error);
+      alert('Error fetching packages!');
+    });
+  </script>
+</body>
+</html>
